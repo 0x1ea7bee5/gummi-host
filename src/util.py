@@ -7,7 +7,11 @@ class MorseChars(StrEnum):
     DOT="."
     DASH="-"
     NONE=""
-
+class ControllerMode(StrEnum):
+    MORSE="morse"
+    BINARY="binary"
+    PULSE="pulse"
+    NONE=""
 VALID_PINS ={
     PinType.PWM: [18,12,13,18],
     PinType.NORMAL: [2,3,4,17,27,22,10,9,11,5,6,26,14,15,23,24,25,16]

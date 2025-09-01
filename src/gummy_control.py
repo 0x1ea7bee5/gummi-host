@@ -5,10 +5,16 @@ from gpiozero import LED, PWMLED
 
 
 class GummyController:
+    instances=[]
     def __init__(self, 
                  pin_num:int, 
                  pin_type:PinType):
         """From pin_num and pin_type, initialize gpio pin"""
+        if pin_num in GummyController.instances:
+            raise Exception(f"An instance of GummyController for pin {pin_num} already exists.")
+        else:
+            self.pin_num=pin_num
+            GummyController.instances.append(pin_num)
         if pin_type == PinType.PWM and pin_num in VALID_PINS[pin_type]:
             self.pin = PWMLED(pin_num)
         elif pin_type == PinType.NORMAL and pin_num in VALID_PINS[pin_type]:
@@ -103,3 +109,6 @@ class GummyController:
                 self.flash_pin(self.binary_dur, 0.1)
             time.sleep(self.binary_rest)
 
+    def __del__(self):
+        if self.pin_num in GummyController.instances:
+           GummyController.instances.remove(self.pin_num)

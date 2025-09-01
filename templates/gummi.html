@@ -1,0 +1,22 @@
+<html>
+	<title>GUMMY BEAR CONTROLLER 9000</title>
+	<head>
+	<style>
+	</style>
+	</head>
+
+	<body>
+	<h1>Morse Code</h1>
+	<form method="POST"
+	      action="{{ url_for('handle_gummy_morse') }}">
+		<input type="text"
+			name="str_text"
+			placeholder="Morse text">
+		<input type="text"
+			name="pin_number"
+			placeholder="RPI GPIO Pin">
+		<button type="submit">Submit</button>
+	</form>
+	</body>
+
+</html>
