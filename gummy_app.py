@@ -47,8 +47,29 @@ def gummy_request(req_dict:dict):
         controller.breathe_pulses(pulse_on, pulse_off, num_pulses)
     else:
         return "Successfully Completed Action"
+
+def gummy_pulse(req_dict:dict):
+
+    level = req_dict.get("level",1)
+    pin_number = req_dict.get("pin_number",18)
+    pin_number = int(pin_number)
+    num_pulses = req_dict.get("num_pulses",10)
+    num_pulses = int(num_pulses)
+    pulse_on = req_dict.get("pulse_on", 2)
+    pulse_on = float(pulse_on)
+    pulse_off = req_dict.get("pulse_off",1)
+    pulse_off = float(pulse_off)
+    if pin_number in VALID_PINS[PinType.PWM]:
+        pin_type = PinType.PWM
+    elif pin_number in VALID_PINS[PinType.NORMAL]:
+        pin_type = PinType.NORMAL
+    else:
+        raise Exception("Invalid Pin Number")    
+    controller = GummyController(pin_number, pin_type)
+    controller.breathe_pulses(pulse_on, pulse_off, num_pulses)
+
+
 def gummy_morse(req_dict:dict):
-    
     level = req_dict.get("level",1)
     pin_number = req_dict.get("pin_number",18)
     pin_number = int(pin_number)
@@ -57,9 +78,6 @@ def gummy_morse(req_dict:dict):
     morse_rest = req_dict.get("morse_rest", 0.05)
     binary_rest = req_dict.get("binary_rest", 0.05)
     str_text = req_dict.get("str_text","")
-    num_pulses = req_dict.get("num_pulses",10)
-    pulse_on = req_dict.get("pulse_on", 2)
-    pulse_off = req_dict.get("pulse_off",1)
     if pin_number in VALID_PINS[PinType.PWM]:
         pin_type = PinType.PWM
     elif pin_number in VALID_PINS[PinType.NORMAL]:
@@ -100,6 +118,16 @@ def handle_gummy_morse():
         except:
             return "Failed to handle request"
 
+@app.route("/handle_gummy_pulse", methods=["POST"])
+def handle_gummy_pulse():
+    """Morse Requests"""
+    if request.method == "POST":
+        request_dict = request.form
+        try:
+            str_return = gummy_pulse(request_dict)
+            return "Gummy bear has been pulsed"
+        except:
+            return "Failed to handle request"
 
 
 if __name__=="__main__":
