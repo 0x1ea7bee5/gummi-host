@@ -16,7 +16,7 @@ class GummyController:
             self.pin_num=pin_num
             GummyController.instances.append(pin_num)
         if pin_type == PinType.PWM and pin_num in VALID_PINS[pin_type]:
-            self.pin = PWMLED(pin_num)
+            self.pin = PWMLED(pin_num,frequency=480)
         elif pin_type == PinType.NORMAL and pin_num in VALID_PINS[pin_type]:
             self.pin = LED(pin_num)
         else:
@@ -96,7 +96,8 @@ class GummyController:
         for char_str in morse_mapped_str:
             morse_char = MorseChars(char_str)
             char_dur = self.morse_lens[morse_char]
-            self.flash_pin(char_dur, level)
+            #self.flash_pin(char_dur, level)
+            self.breathe_pulses(char_dur,char_dur,1)
             time.sleep(self.morse_rest)
     
     def flash_binary(self, flash_str:str, level:float=1):

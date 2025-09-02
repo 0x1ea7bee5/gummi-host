@@ -74,8 +74,8 @@ def gummy_morse(req_dict:dict):
     pin_number = req_dict.get("pin_number",18)
     pin_number = int(pin_number)
     binary_dur = req_dict.get("binary_dur",0.25)
-    morse_scale = req_dict.get("morse_scale",0.1)
-    morse_rest = req_dict.get("morse_rest", 0.05)
+    morse_scale = req_dict.get("morse_scale",0.25)
+    morse_rest = req_dict.get("morse_rest", 0.25)
     binary_rest = req_dict.get("binary_rest", 0.05)
     str_text = req_dict.get("str_text","")
     if pin_number in VALID_PINS[PinType.PWM]:
